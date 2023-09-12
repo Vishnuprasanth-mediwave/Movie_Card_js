@@ -7,6 +7,9 @@ form{
 label{
     padding: 10px;
 }
+#movie-year{
+    width: 176px;
+}
 .submit{
     margin-top: 20px;
     font-size: 20px;
