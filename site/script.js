@@ -20,7 +20,7 @@ let favMovies = [
 ];
 function makeMovieDiv(movie) {
   if (movie.isEdit) {
-    const div = document.createElement("div");
+    const div = document.createElement("form");
     div.setAttribute("class", "movie-card");
     /**
     <input type="text" name="movie-name"
@@ -41,18 +41,23 @@ function makeMovieDiv(movie) {
     nameInput.setAttribute("placeholder", "enter movie name");
     nameInput.setAttribute("id", `edit-${movie.id}-name`);
     nameInput.setAttribute("value", movie.title);
+    nameInput.required = true;
 
     const yearInput = document.createElement("input");
-    yearInput.setAttribute("type", "text");
+    yearInput.setAttribute("type", "number");
     yearInput.setAttribute("name", `edit-${movie.id}-year`);
     yearInput.setAttribute("placeholder", "enter movie name");
     yearInput.setAttribute("id", `edit-${movie.id}-year`);
     yearInput.setAttribute("value", movie.releaseDate);
+    yearInput.setAttribute("min", "1500");
+    yearInput.setAttribute("max", new Date().getFullYear());
 
-    const updateBtn = document.createElement("button");
-    updateBtn.innerText = "Update movie";
+    const updateBtn = document.createElement("input");
+    updateBtn.setAttribute("class", "update-btn");
+    updateBtn.setAttribute("type", "submit");
+    updateBtn.setAttribute("value", "movie update");
 
-    updateBtn.addEventListener("click", function () {
+    div.addEventListener("submit", function () {
       const newTitle = document.querySelector(`#edit-${movie.id}-name`).value;
       const newYear = document.querySelector(`#edit-${movie.id}-year`).value;
 
@@ -110,7 +115,6 @@ function EditMovie(movieId) {
   if (toEditIndex != -1) {
     favMovies[toEditIndex]["isEdit"] = true;
     updateUI();
-   
   }
 }
 
@@ -120,14 +124,14 @@ function addMovieForm() {
     e.preventDefault();
     let name = document.querySelector("#movie-name").value;
     let year = document.querySelector("#movie-year").value;
-    
+
     if (!name) {
       alert("please enter value");
       return false;
-    } else if (!year){
+    } else if (!year) {
       alert("please enter year");
       return false;
-    }else  {
+    } else {
       const movie = {
         id: new Date().getTime(),
         title: name,
@@ -160,7 +164,7 @@ function clearSite() {
 function removeMovie(movieId) {
   const deleteIndex = favMovies.findIndex((movie) => movie.id == movieId);
   favMovies.splice(deleteIndex, 1);
-   saveToLocalStorage();
+  saveToLocalStorage();
   updateUI();
 }
 
@@ -177,16 +181,16 @@ function updateUI() {
 }
 
 function saveToLocalStorage() {
-  const str = JSON.stringify(favMovies)
-  localStorage.setItem('my-movie-list', str)
+  const str = JSON.stringify(favMovies);
+  localStorage.setItem("my-movie-list", str);
 }
 
 function getFromLocalStorage() {
-  const str = localStorage.getItem('my-movie-list')
+  const str = localStorage.getItem("my-movie-list");
   if (!str) {
     return favMovies;
   } else {
-    favMovies = JSON.parse(str)
+    favMovies = JSON.parse(str);
   }
 }
 getFromLocalStorage();
