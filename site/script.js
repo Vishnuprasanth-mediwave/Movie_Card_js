@@ -22,19 +22,7 @@ function makeMovieDiv(movie) {
   if (movie.isEdit) {
     const div = document.createElement("form");
     div.setAttribute("class", "movie-card");
-    /**
-    <input type="text" name="movie-name"
-      placeholder="Enter movie name"
-      id="movie-name"
-      value="Ghost"/>
-
-    <input type="number" name="movie-year"
-      placeholder="Enter movie year"
-      id="movie-year"
-      value="1998"/>
-
-    <button>Update</button>
-     */
+  
     const nameInput = document.createElement("input");
     nameInput.setAttribute("type", "text");
     nameInput.setAttribute("name", `edit-${movie.id}-name`);
